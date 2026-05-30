@@ -1,0 +1,224 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Grau Multifocal</title>
+    <style>
+        :root {
+            color-scheme: light;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background: white;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 28px;
+            margin: 0 0 8px 0;
+            color: #1a1a1a;
+        }
+        .subtitle {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .form-box {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            outline: none;
+            border: 2px solid #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background: #e0e0e0;
+        }
+        .info-box {
+            background: #e8f4ff;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .info-box strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .info-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .info-box li {
+            margin-bottom: 4px;
+        }
+        .referral-box {
+            text-align: center;
+            padding: 12px;
+            background: #fff3cd;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+        .referral-box p {
+            margin: 0 0 8px 0;
+            color: #333;
+        }
+        .referral-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .referral-link:hover {
+            background: #0052a3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Calculadora de Grau Multifocal</h1>
+            <p class="subtitle">Óculos: Longe + Intermediário + Perto</p>
+        </div>
+
+        <div class="form-box">
+            <div class="form-group">
+                <label for="longe">Grau Longe</label>
+                <input type="number" id="longe" placeholder="ex: -1.00 ou +1.00" step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="perto">Grau Perto</label>
+                <input type="number" id="perto" placeholder="ex: +1.00 ou +0.50" step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="adicao">Adição (ADD)</label>
+                <input type="number" id="adicao" placeholder="ex: +2.00" step="0.01">
+            </div>
+        </div>
+
+        <button onclick="limpar()">Limpar</button>
+
+        <div class="info-box">
+            <strong>Como funciona:</strong>
+            <ul>
+                <li>Preencha 2 valores, o terceiro calcula automaticamente</li>
+                <li>Fórmula: Perto = Longe + Adição</li>
+                <li>Use números positivos (+) ou negativos (-)</li>
+            </ul>
+        </div>
+
+        <div class="referral-box">
+            <p>Aproveite! Quer melhorar sua produtividade com IA?</p>
+            <a href="https://claude.ai/referral/KDBYV0JcNw?s=cowork&v=apps" target="_blank" class="referral-link">Teste Claude Pro</a>
+        </div>
+    </div>
+
+    <script>
+        const longeInput = document.getElementById('longe');
+        const pertoInput = document.getElementById('perto');
+        const adicaoInput = document.getElementById('adicao');
+
+        function round2(num) {
+            if (num === '' || num === null || isNaN(num)) return '';
+            return (Math.round(num * 100) / 100).toFixed(2);
+        }
+
+        longeInput.addEventListener('input', function() {
+            const longe = parseFloat(this.value);
+            const perto = parseFloat(pertoInput.value);
+            const adicao = parseFloat(adicaoInput.value);
+
+            if (!isNaN(longe)) {
+                if (!isNaN(perto)) {
+                    adicaoInput.value = round2(perto - longe);
+                } else if (!isNaN(adicao)) {
+                    pertoInput.value = round2(longe + adicao);
+                }
+            }
+        });
+
+        pertoInput.addEventListener('input', function() {
+            const longe = parseFloat(longeInput.value);
+            const perto = parseFloat(this.value);
+            const adicao = parseFloat(adicaoInput.value);
+
+            if (!isNaN(perto)) {
+                if (!isNaN(longe)) {
+                    adicaoInput.value = round2(perto - longe);
+                } else if (!isNaN(adicao)) {
+                    longeInput.value = round2(perto - adicao);
+                }
+            }
+        });
+
+        adicaoInput.addEventListener('input', function() {
+            const longe = parseFloat(longeInput.value);
+            const perto = parseFloat(pertoInput.value);
+            const adicao = parseFloat(this.value);
+
+            if (!isNaN(adicao)) {
+                if (!isNaN(longe)) {
+                    pertoInput.value = round2(longe + adicao);
+                } else if (!isNaN(perto)) {
+                    longeInput.value = round2(perto - adicao);
+                }
+            }
+        });
+
+        function limpar() {
+            longeInput.value = '';
+            pertoInput.value = '';
+            adicaoInput.value = '';
+        }
+    </script>
+</body>
+</html>
